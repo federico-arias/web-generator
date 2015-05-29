@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsl:stylesheet version="1.0"
+xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
+
+<xsl:template match="/">
+    <div id="tabs">
+        <ul>
+            <xsl:for-each select='tabs/tab'>
+                <li>
+                    <a>
+                        <xsl:attribute name='href'>#<xsl:value-of select='href' /></xsl:attribute>
+                        <xsl:value-of select='title' />
+                    </a>
+                </li>
+            </xsl:for-each>
+        </ul>
+        <xsl:for-each select='tabs/tab'>
+            <div>
+                <xsl:attribute name='id'>
+                    <xsl:value-of select='href' />
+                </xsl:attribute>
+                <xsl:copy-of select="content/node()" />
+            </div>
+        </xsl:for-each>
+    </div>
+</xsl:template>
+
+</xsl:stylesheet>

@@ -1,0 +1,28 @@
+<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" version="1.0">
+
+
+    <xsl:template match="p[not(text()!='{%tab%}')]" >
+        <div id="accordion">
+            <xsl:apply-templates select="following-sibling::*[preceding-sibling::p[not(normalize-space(text())!='{%tab%}')]]
+                [following-sibling::p[not(normalize-space(text())!='{%endtab%}')]]
+                [not(
+                generate-id(preceding-sibling::p[not(normalize-space(text())!='{%tab%}')][1]/following-sibling::p[not(normalize-space(text())!='{%endtab%}')][1])
+                != generate-id(following-sibling::p[not(normalize-space(text())!='{%endtab%}')][1])
+                )
+                ][generate-id(preceding-sibling::p[1][not(normalize-space(text())!='{%tab%}')]) = generate-id(current())]"  mode="h"/>
+        </div>
+    </xsl:template>
+
+    <xsl:template match="p[text()='{%endtab%}']" />
+    <xsl:template match="*" mode="h">
+        <xsl:copy-of select="." />
+    </xsl:template>
+
+    <xsl:template match="*[preceding-sibling::p[not(normalize-space(text())!='{%tab%}')]]
+    [following-sibling::p[not(normalize-space(text())!='{%endtab%}')]]
+    [not(
+        generate-id(preceding-sibling::p[not(normalize-space(text())!='{%tab%}')][1]/following-sibling::p[not(normalize-space(text())!='{%endtab%}')][1])
+        != generate-id(following-sibling::p[not(normalize-space(text())!='{%endtab%}')][1])
+    )]" />
+
+</xsl:stylesheet>
